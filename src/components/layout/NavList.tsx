@@ -7,7 +7,6 @@ export default function NavList() {
 		{ label: "Películas", path: "/", icon: <Clapperboard /> },
 		{ label: "Favoritos", path: "/favorites", icon: <Heart /> },
 	];
-
 	return (
 		<nav className="flex items-center justify-center gap-4">
 			<ul className="md:flex space-x-4 hidden">
