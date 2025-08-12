@@ -6,7 +6,7 @@ import NavList from "./NavList";
 
 export default function Nav() {
 	return (
-		<header className="w-full bg-primary px-5 md:px-16 py-2.5 h-[80px] flex items-center justify-between text-white relative overflow-hidden">
+		<header className="w-full bg-primary dark:bg-zinc-900 px-5 md:px-16 py-2.5 h-[80px] flex items-center justify-between text-white relative overflow-hidden shadow-md">
 			{/** Logo */}
 			<div className="flex items-center md:gap-10">
 				<Link href="/">
@@ -25,7 +25,7 @@ export default function Nav() {
 			</div>
 			{/** Titulo */}
 			{/** Botón de cambio de tema y menu*/}
-			<div className="flex gap-4">
+			<div className="flex gap-4 items-center">
 				<NavList />
 				<ThemeToggleButton />
 			</div>
