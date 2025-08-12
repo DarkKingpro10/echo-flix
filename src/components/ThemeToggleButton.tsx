@@ -38,7 +38,7 @@ export function ThemeToggleButton() {
 	return (
 		<button
 			onClick={toggleTheme}
-			className="relative p-1.5 rounded-lg bg-gradient-to-b from-zinc-50 to-zinc-200/80 dark:from-zinc-800 dark:to-zinc-950/80 hover:from-zinc-100 hover:to-zinc-300/80 dark:hover:from-zinc-700 dark:hover:to-zinc-900/80 shadow-lg hover:shadow-xl active:shadow-inner transition-all duration-300 group border border-zinc-300/50 dark:border-zinc-700/50 backdrop-blur-sm"
+			className="relative p-1.5 rounded-lg bg-gradient-to-b from-zinc-50 to-zinc-50 dark:from-zinc-800 dark:to-zinc-950/80 hover:from-zinc-100 hover:to-zinc-300/80 dark:hover:from-zinc-700 dark:hover:to-zinc-900/80 shadow-lg hover:shadow-xl active:shadow-inner transition-all duration-300 group border border-zinc-300/50 dark:border-zinc-700/50 backdrop-blur-sm"
 			aria-label="Cambiar tema"
 		>
 			<div className="relative w-6 h-6 overflow-hidden">
@@ -49,7 +49,7 @@ export function ThemeToggleButton() {
 						viewBox="0 0 24 24"
 						strokeWidth={2}
 						stroke="currentColor"
-						className="w-6 h-6 text-amber-300 transform transition-all duration-300"
+						className="w-6 h-6 text-white transform transition-all duration-300 group-hover:text-amber-200"
 					>
 						<path
 							strokeLinecap="round"
@@ -65,7 +65,7 @@ export function ThemeToggleButton() {
 						viewBox="0 0 24 24"
 						strokeWidth={2}
 						stroke="currentColor"
-						className="w-6 h-6 text-yellow-500 transform transition-all duration-300 group-hover:rotate-[360deg]"
+						className="w-6 h-6 text-yellow-500 transform transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-black"
 					>
 						<path
 							strokeLinecap="round"
