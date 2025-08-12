@@ -10,7 +10,7 @@ export default function NavList() {
 
 	return (
 		<nav className="flex items-center justify-center gap-4">
-			<ul className="flex space-x-4">
+			<ul className="md:flex space-x-4 hidden">
 				{routes.map(({ icon, label, path }, index) => (
 					<li key={index}>
 						<NavLinkItem path={path} label={label} icon={icon} />

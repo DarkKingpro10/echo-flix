@@ -6,29 +6,29 @@ import NavList from "./NavList";
 
 export default function Nav() {
 	return (
-			<header className="w-full bg-primary px-5 py-2.5 h-[80px] flex items-center justify-between text-white relative overflow-hidden">
-				{/** Logo */}
-				<div>
-					<Link href="/">
-						<Image
-							src={logo}
-							alt="Echo-Flix Logo"
-							width={50}
-							height={50}
-							className="object-contain"
-							priority
-						/>
-					</Link>
-				</div>
-				{/** Titulo */}
-				<div className="absolute left-1/2 -translate-x-1/2 text-4xl font-bold md:text-5xl md:static">
+		<header className="w-full bg-primary px-5 md:px-16 py-2.5 h-[80px] flex items-center justify-between text-white relative overflow-hidden">
+			{/** Logo */}
+			<div className="flex items-center md:gap-10">
+				<Link href="/">
+					<Image
+						src={logo}
+						alt="Echo-Flix Logo"
+						width={50}
+						height={50}
+						className="object-contain"
+						priority
+					/>
+				</Link>
+				<div className="text-4xl font-bold md:text-5xl md:static md:-translate-0 absolute left-1/2 -translate-x-1/2">
 					Echo Flix
 				</div>
-				{/** Botón de cambio de tema y menu*/}
-				<div className="flex gap-4">
-					<NavList />
-					<ThemeToggleButton />
-				</div>
-			</header>
+			</div>
+			{/** Titulo */}
+			{/** Botón de cambio de tema y menu*/}
+			<div className="flex gap-4">
+				<NavList />
+				<ThemeToggleButton />
+			</div>
+		</header>
 	);
 }
