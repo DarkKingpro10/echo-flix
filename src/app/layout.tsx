@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { PoppinsFont } from "@/shared/styles/fonts";
+import { PoppinsFont } from "@/styles/fonts";
+import { ThemeToggleButton } from "@/components/ThemeToggleButton";
+import Nav from "@/components/layout/Nav";
 
 export const metadata: Metadata = {
 	title: "Echo-Flix- Next.js",
@@ -23,7 +25,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={`${PoppinsFont.className} antialiased`}>{children}</body>
+			<body className={`${PoppinsFont.className} antialiased`}>
+				<Nav />
+				{children}
+			</body>
 		</html>
 	);
 }
