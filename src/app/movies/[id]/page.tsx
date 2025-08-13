@@ -4,6 +4,8 @@ import { Star } from "lucide-react";
 
 import { fetchMovieDetails } from "../moviesActions";
 import BackButton from "@/components/BackButton";
+import FavoriteButton from "@/components/FavoriteButton";
+import { FavoriteObject } from "@/app/store/favoriteStore";
 
 export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
 
@@ -20,7 +22,9 @@ export default async function MovieDetailsPage({
 	}
 
 	// Obtenemos los directores y escritores
-	const directors = movie.credits.crew.filter((member) => member.job === "Director");
+	const directors = movie.credits.crew.filter(
+		(member) => member.job === "Director"
+	);
 	const writers = movie.credits.crew.filter(
 		(member) => member.department === "Writing"
 	);
@@ -33,6 +37,16 @@ export default async function MovieDetailsPage({
 			day: "numeric",
 		});
 	};
+
+	const favoriteObject: FavoriteObject = {
+		type: "movie" as const,
+		id: movie.id,
+		title: movie.title,
+		name: movie.title,
+		poster_path: movie.poster_path,
+		backdrop_path: movie.backdrop_path,
+		overview: movie.overview,
+	}
 
 	return (
 		<main className="min-h-screen w-full bg-white dark:bg-zinc-900">
@@ -53,7 +67,7 @@ export default async function MovieDetailsPage({
 			{/* Contenido principal */}
 			<div className="relative z-10 -mt-32 px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-7xl">
-					<BackButton  title={"películas"}/>
+					<BackButton title={"películas"} />
 
 					<div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
 						{/* Póster */}
@@ -74,9 +88,12 @@ export default async function MovieDetailsPage({
 						{/* Información */}
 						<div className="space-y-6 text-white">
 							<div>
-								<h1 className="text-4xl font-bold  text-white">
-									{movie.title}
-								</h1>
+								<div className="flex flex-col md:flex-row flex-wrap">
+									<h1 className="text-4xl font-bold  text-white flex-1">
+										{movie.title}
+									</h1>
+									<FavoriteButton object={favoriteObject} />
+								</div>
 								<div className="mt-2 flex items-center gap-4">
 									<div className="flex items-center gap-1">
 										<Star className="h-5 w-5 text-yellow-400" />
@@ -164,10 +181,7 @@ export default async function MovieDetailsPage({
 										</h2>
 										<div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 											{movie.credits.cast.slice(0, 8).map((actor) => (
-												<div
-													key={actor.id}
-													className="flex items-center gap-3"
-												>
+												<div key={actor.id} className="flex items-center gap-3">
 													<div className="relative h-12 w-12 flex-shrink-0">
 														{actor.profile_path ? (
 															<Image
