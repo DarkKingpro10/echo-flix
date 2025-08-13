@@ -16,30 +16,30 @@ export default function MoviesList({
 
 	if (movieData.error) {
 		return (
-			<main className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+			<section className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
 				<h1 className="text-2xl font-bold mb-4">
 					Error al cargar las películas
 				</h1>
 				<p className="text-lg text-red-600 dark:text-red-400">
 					{movieData.error}
 				</p>
-			</main>
+			</section>
 		);
 	}
 
 	if (!movieData.data || movieData.data.length === 0) {
 		return (
-			<main className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+			<section className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
 				<h1 className="text-2xl font-bold mb-4">No se encontraron películas</h1>
 				<p className="text-lg text-zinc-600 dark:text-zinc-400">
 					Intenta ajustar tus filtros o buscar con otro término.
 				</p>
-			</main>
+			</section>
 		);
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+		<section className="min-h-screen flex flex-col p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
 			{/**Sección de peliculas */}
 			<section className="w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{movieData.data.map((movie) => (
@@ -100,6 +100,6 @@ export default function MoviesList({
 					/>
 				)}
 			</div>
-		</main>
+		</section>
 	);
 }

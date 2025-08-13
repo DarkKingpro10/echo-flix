@@ -5,7 +5,7 @@ import { Serie } from "./seriesType";
 import { Genre } from "@/types/genresTypes";
 
 const SeriesFetchParamsSchema = z.object({
-	search: z.string().optional(),
+	query: z.string().optional(),
 	page: z.number().default(1),
 	genres: z
 		.array(z.union([z.string(), z.number()]))
@@ -13,16 +13,18 @@ const SeriesFetchParamsSchema = z.object({
 		.optional(),
 });
 
-export type SerieFetchParamsType = z.infer<typeof SeriesFetchParamsSchema>;
-
-export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<{
+export type SeriesFetchResponseType = {
 	error?: string;
 	details?: unknown | null;
 	data: Serie[];
 	page?: number;
 	totalPages?: number;
 	totalResults?: number;
-}> {
+}
+
+export type SerieFetchParamsType = z.infer<typeof SeriesFetchParamsSchema>;
+
+export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<SeriesFetchResponseType> {
 	// Validación de los parámetros de búsqueda
 	const { success, error, data } =
 		SeriesFetchParamsSchema.safeParse(searchParams);
@@ -37,18 +39,20 @@ export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<{
 
 	// Construcción de la URL de búsqueda
 	const baseUrl = `https://api.themoviedb.org/3/${
-		data.search?.trim() != "" ? "search" : "discover"
+		data.query?.trim() != "" ? "search" : "discover"
 	}/tv`;
-	const { search, page, genres } = data;
+	const { query, page, genres } = data;
 	const url = new URL(baseUrl); // Construimos la URL base
 	// Añadimos los parámetros de búsqueda
 	url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
 	url.searchParams.append("page", page.toString());
 	url.searchParams.append("language", "es-ES");
 
+	console.log(query)
+
 	// Si hay una consulta de búsqueda, la añadimos a los parámetros
-	if (search) {
-		url.searchParams.append("query", search);
+	if (query) {
+		url.searchParams.append("query", query);
 	}
 	// Si hay géneros, los añadimos a los parámetros
 	if (genres && genres.length > 0) {
@@ -62,6 +66,7 @@ export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<{
 				"Content-Type": "application/json",
 			},
 		});
+		console.log("ESTA ES LA URL: "+url.toString())
 
 		const data = await response.json();
 		// Verificamos si la respuesta es exitosa
