@@ -27,7 +27,7 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 	// Validación de los parámetros de búsqueda
 	const { success, error, data } =
 		MovieFetchParamsSchema.safeParse(searchParams);
-
+		
 	if (!success) {
 		return {
 			error: "No se pudieron validar los parámetros de búsqueda.",
@@ -59,7 +59,7 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 	try {
     console.log("Fetching movies with URL:", url.toString());
 		const response = await fetch(url.toString(), {
-			cache: "no-store",
+			next: { revalidate: 1800 }, // Revalida cada 30 minutos 
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -88,6 +88,73 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 			error: "Error al realizar la solicitud a la API.",
 			details: error instanceof Error ? error.message : "Error desconocido",
 			data: [],
+		};
+	}
+}
+
+export async function fetchMovieDetails(movieId: string | number): Promise<{
+	error: string | null;
+	details: unknown | null;
+	data: {
+		id: number;
+		title: string;
+		overview: string;
+		release_date: string;
+		genres: Genre[];
+		runtime: number;
+		vote_average: number;
+		vote_count: number;
+		backdrop_path: string | null;
+		poster_path: string | null;
+		credits: {
+			cast: Array<{
+				id: number;
+				name: string;
+				character: string;
+				profile_path: string | null;
+			}>;
+			crew: Array<{
+				id: number;
+				name: string;
+				job: string;
+				department: string;
+			}>;
+		};
+	} | null;
+}> {
+	try {
+		const url = new URL(`https://api.themoviedb.org/3/movie/${movieId}`);
+		url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
+		url.searchParams.append("language", "es-ES");
+		url.searchParams.append("append_to_response", "credits");
+
+		const response = await fetch(url.toString(), {
+			next: { revalidate: 86400 }, // Revalida cada 24 horas
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+			return {
+				error: "Error al obtener los detalles de la película.",
+				details: data.status_message || "Error desconocido",
+				data: null,
+			};
+		}
+
+		return {
+			error: null,
+			details: null,
+			data: data,
+		};
+	} catch (error) {
+		return {
+			error: "Error al realizar la solicitud a la API.",
+			details: error instanceof Error ? error.message : "Error desconocido",
+			data: null,
 		};
 	}
 }

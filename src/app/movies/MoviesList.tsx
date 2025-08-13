@@ -1,14 +1,11 @@
 import { use } from "react";
-import {
-	fetchMovieGenres,
-	fetchMovies,
-	MovieFetchParamsType,
-} from "./moviesActions";
+import { fetchMovies, MovieFetchParamsType } from "./moviesActions";
 import Image from "next/image";
 import { TMDB_IMAGE_BASE_URL } from "../config/globalVariables";
 import clsx from "clsx";
 import Link from "next/link";
 import { Eye } from "lucide-react";
+import Pagination from "@/components/Pagination";
 export default function MoviesList({
 	page,
 	genres,
@@ -51,7 +48,7 @@ export default function MoviesList({
 					>
 						{/* Overlay al hacer hover */}
 						<Link
-							href={`/movies/${movie.id}`} 
+							href={`/movies/${movie.id}`}
 							className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
 						>
 							<Eye className="w-10 h-10 text-white hover:text-gray-500 transition-colors" />
@@ -91,6 +88,15 @@ export default function MoviesList({
 					</article>
 				))}
 			</section>
+			<div className="w-full">
+				{movieData.totalPages && movieData.totalResults && (
+					<Pagination
+						currentPage={page}
+						totalPages={movieData.totalPages}
+						totalResults={movieData.totalResults}
+					/>
+				)}
+			</div>
 		</main>
 	);
 }

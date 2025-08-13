@@ -8,7 +8,7 @@ export default function NavList() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const routes: NavLinkItemProps[] = [
-		{ label: "Películas", path: "/", icon: <Clapperboard /> },
+		{ label: "Películas", path: "/movies", icon: <Clapperboard /> },
     { label: "Series", path: "/series", icon: <MonitorPlay /> },
 		{ label: "Favoritos", path: "/favorites", icon: <Heart /> },
 	];
