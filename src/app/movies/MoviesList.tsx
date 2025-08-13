@@ -91,6 +91,7 @@ export default function MoviesList({
 			<div className="w-full">
 				{movieData.totalPages && movieData.totalResults && (
 					<Pagination
+						path="/movies"
 						currentPage={page}
 						totalPages={movieData.totalPages}
 						totalResults={movieData.totalResults}

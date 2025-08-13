@@ -22,7 +22,7 @@ export default function Pagination({
 	const handlePageChange = (page: number) => {
 		const params = new URLSearchParams(searchParams.toString());
 		params.set("page", page.toString());
-		router.push(`/${path}?${params.toString()}`);
+		router.push(`${path}?${params.toString()}`);
 	};
 
 	// Calcular rango de páginas a mostrar
