@@ -14,18 +14,18 @@ export default function SearchBar({ query }: { query?: string }) {
 	// Manejar la búsqueda
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		
+
 		if (isPending) return;
-		
+
 		const trimmedSearch = searchTerm?.trim() || "";
 		const params = new URLSearchParams(searchParams.toString());
-		
+
 		if (trimmedSearch) {
 			params.set("query", trimmedSearch);
 		} else {
 			params.delete("query");
 		}
-		
+
 		startTransition(() => {
 			router.push(`${pathname}?${params.toString()}`);
 		});

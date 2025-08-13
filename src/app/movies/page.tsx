@@ -3,6 +3,11 @@ import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import MoviesList from "./MoviesList";
 
+// Marcar la ruta como dinámica
+// export const dynamic = "force-dynamic"; // Mejor no para que la primera carga sea más rápida
+// Opcionalmente, podemos configurar el revalidate si queremos cache por un tiempo específico
+export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
+
 export default async function Page(props: {
 	searchParams?: Promise<{
 		query?: string;

@@ -27,7 +27,7 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 	// Validación de los parámetros de búsqueda
 	const { success, error, data } =
 		MovieFetchParamsSchema.safeParse(searchParams);
-		
+
 	if (!success) {
 		return {
 			error: "No se pudieron validar los parámetros de búsqueda.",

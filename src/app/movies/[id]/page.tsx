@@ -1,9 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 import { fetchMovieDetails } from "../moviesActions";
+import BackButton from "@/components/BackButton";
+
+export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
 
 export default async function MovieDetailsPage({
 	params,
@@ -11,6 +13,7 @@ export default async function MovieDetailsPage({
 	params: { id: string };
 }) {
 	const { data: movie, error } = await fetchMovieDetails(params.id);
+	// const router = useRouter();
 
 	if (error || !movie) {
 		notFound();
@@ -50,13 +53,7 @@ export default async function MovieDetailsPage({
 			{/* Contenido principal */}
 			<div className="relative z-10 -mt-32 px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-7xl">
-					<Link
-						href="/"
-						className="mb-6 inline-flex items-center gap-2 text-white hover:text-primary transition-colors"
-					>
-						<ChevronLeft className="h-5 w-5" />
-						<span>Volver a películas</span>
-					</Link>
+					<BackButton  title={"películas"}/>
 
 					<div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
 						{/* Póster */}
