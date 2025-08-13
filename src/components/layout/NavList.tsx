@@ -1,5 +1,5 @@
 "use client";
-import { Clapperboard, Heart, Menu, X } from "lucide-react";
+import { Clapperboard, Heart, Menu, MonitorPlay, X } from "lucide-react";
 import Link from "next/link";
 import NavLinkItem, { NavLinkItemProps } from "./NavLinkItem";
 import { useState } from "react";
@@ -9,6 +9,7 @@ export default function NavList() {
 
 	const routes: NavLinkItemProps[] = [
 		{ label: "Películas", path: "/", icon: <Clapperboard /> },
+    { label: "Series", path: "/series", icon: <MonitorPlay /> },
 		{ label: "Favoritos", path: "/favorites", icon: <Heart /> },
 	];
 

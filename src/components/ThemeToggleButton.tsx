@@ -7,33 +7,31 @@ enum ThemeTypes {
 }
 
 export function ThemeToggleButton() {
-	const getCurrentTheme = () => {
+	const [theme, setTheme] = useState<ThemeTypes>(ThemeTypes.Light);
+
+	// Obtener y aplicar el tema cuando el componente ya está montado
+	useEffect(() => {
 		const storedTheme = localStorage.getItem("theme") as ThemeTypes | null;
-		console.log("STORED THEME:", storedTheme);
-		const systemColorScheme = window.matchMedia("(prefers-color-scheme: dark)")
-			.matches
+		const systemColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches
 			? ThemeTypes.Dark
 			: ThemeTypes.Light;
 
-		return storedTheme ?? systemColorScheme;
-	};
+		const initialTheme = storedTheme ?? systemColorScheme;
+		setTheme(initialTheme);
+		document.documentElement.setAttribute("data-theme", initialTheme);
+	}, []);
 
-	const saveTheme = (theme: ThemeTypes) => {
+	// Guardar cambios de tema
+	useEffect(() => {
 		localStorage.setItem("theme", theme);
 		document.documentElement.setAttribute("data-theme", theme);
-	};
-
-	const [theme, setTheme] = useState(getCurrentTheme);
+	}, [theme]);
 
 	const toggleTheme = () => {
-		const newTheme =
-			theme === ThemeTypes.Dark ? ThemeTypes.Light : ThemeTypes.Dark;
-		setTheme(newTheme);
+		setTheme((prev) =>
+			prev === ThemeTypes.Dark ? ThemeTypes.Light : ThemeTypes.Dark
+		);
 	};
-
-	useEffect(() => {
-		saveTheme(theme);
-	}, [theme]);
 
 	return (
 		<button
@@ -58,7 +56,6 @@ export function ThemeToggleButton() {
 						/>
 					</svg>
 				) : (
-
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
