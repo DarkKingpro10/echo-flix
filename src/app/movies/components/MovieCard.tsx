@@ -30,7 +30,6 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 				className="w-full h-[400px] object-cover rounded-t-lg shadow-md"
 				alt={movie.title}
 				loading="lazy"
-				priority={movie.id < 10} // Priorizar las primeras 10 películas
 			/>
 			<div className="p-4 flex ">
 				{/** Titulo de la pelicula*/}
