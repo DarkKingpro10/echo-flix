@@ -1,29 +1,29 @@
 export interface MoviesFetch {
-	page: number;
-	results: Movie[];
-	total_pages: number;
-	total_results: number;
+    page:          number;
+    results:       Movie[];
+    total_pages:   number;
+    total_results: number;
 }
 
 export interface Movie {
-	adult: boolean;
-	backdrop_path: string;
-	genre_ids: number[];
-	id: number;
-	original_language: OriginalLanguage;
-	original_title: string;
-	overview: string;
-	popularity: number;
-	poster_path: string;
-	release_date: Date;
-	title: string;
-	video: boolean;
-	vote_average: number;
-	vote_count: number;
+    adult:             boolean;
+    backdrop_path:     string;
+    genre_ids:         number[];
+    id:                number;
+    original_language: OriginalLanguage;
+    original_title:    string;
+    overview:          string;
+    popularity:        number;
+    poster_path:       string;
+    release_date:      Date;
+    title:             string;
+    video:             boolean;
+    vote_average:      number;
+    vote_count:        number;
 }
 
 export enum OriginalLanguage {
-	En = "en",
-	Ja = "ja",
-	Zh = "zh",
+    En = "en",
+    Ja = "ja",
+    Zh = "zh",
 }
