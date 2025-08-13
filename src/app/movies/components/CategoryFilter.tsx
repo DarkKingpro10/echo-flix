@@ -96,7 +96,7 @@ export default function CategoryFilter() {
 			>
 				<Filter className="w-5 h-5" />
 				<span>
-					Categorías {selectedIds.length > 0 && `(${selectedIds.length})`}
+					Géneros {selectedIds.length > 0 && `(${selectedIds.length})`}
 				</span>
 			</button>
 

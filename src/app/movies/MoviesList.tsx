@@ -1,8 +1,14 @@
 import { use } from "react";
-import { fetchMovieGenres, fetchMovies, MovieFetchParamsType } from "./moviesActions";
+import {
+	fetchMovieGenres,
+	fetchMovies,
+	MovieFetchParamsType,
+} from "./moviesActions";
 import Image from "next/image";
 import { TMDB_IMAGE_BASE_URL } from "../config/globalVariables";
 import clsx from "clsx";
+import Link from "next/link";
+import { Eye } from "lucide-react";
 export default function MoviesList({
 	page,
 	genres,
@@ -16,7 +22,9 @@ export default function MoviesList({
 				<h1 className="text-2xl font-bold mb-4">
 					Error al cargar las películas
 				</h1>
-				<p className="text-lg text-red-600 dark:text-red-400">{movieData.error}</p>
+				<p className="text-lg text-red-600 dark:text-red-400">
+					{movieData.error}
+				</p>
 			</main>
 		);
 	}
@@ -39,8 +47,15 @@ export default function MoviesList({
 				{movieData.data.map((movie) => (
 					<article
 						key={movie.id}
-						className="bg-white dark:bg-zinc-800 rounded-md shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300"
+						className="relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg"
 					>
+						{/* Overlay al hacer hover */}
+						<Link
+							href={`/movies/${movie.id}`} 
+							className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
+						>
+							<Eye className="w-10 h-10 text-white hover:text-gray-500 transition-colors" />
+						</Link>
 						<Image
 							width={500}
 							height={300}
