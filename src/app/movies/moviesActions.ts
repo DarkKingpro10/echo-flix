@@ -57,7 +57,6 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 
 	// Realizamos la solicitud a la API
 	try {
-    // console.log("Fetching movies with URL:", url.toString());
 		const response = await fetch(url.toString(), {
 			next: { revalidate: 1800 }, // Revalida cada 30 minutos 
 			headers: {

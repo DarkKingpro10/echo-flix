@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import { Serie } from "./seriesType";
+import { Serie, SerieDetail } from "./seriesType";
 import { Genre } from "@/types/genresTypes";
 
 const SeriesFetchParamsSchema = z.object({
@@ -20,11 +20,13 @@ export type SeriesFetchResponseType = {
 	page?: number;
 	totalPages?: number;
 	totalResults?: number;
-}
+};
 
 export type SerieFetchParamsType = z.infer<typeof SeriesFetchParamsSchema>;
 
-export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<SeriesFetchResponseType> {
+export async function fetchSeries(
+	searchParams: SerieFetchParamsType
+): Promise<SeriesFetchResponseType> {
 	// Validación de los parámetros de búsqueda
 	const { success, error, data } =
 		SeriesFetchParamsSchema.safeParse(searchParams);
@@ -64,7 +66,7 @@ export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<S
 				"Content-Type": "application/json",
 			},
 		});
-		console.log("ESTA ES LA URL: "+url.toString())
+		console.log("ESTA ES LA URL: " + url.toString());
 
 		const data = await response.json();
 		// Verificamos si la respuesta es exitosa
@@ -84,53 +86,91 @@ export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<S
 			totalResults: data.total_results ?? 0,
 		};
 	} catch (error) {
-    return {
+		return {
 			error: "Error al realizar la solicitud a la API de las series.",
 			details: error instanceof Error ? error.message : "Error desconocido",
 			data: [],
 		};
-  }
+	}
 }
 
 export async function fetchSeriesGenre(): Promise<{
-  error: string | null;
-  details: unknown | null;
-  data: Genre[];
+	error: string | null;
+	details: unknown | null;
+	data: Genre[];
 }> {
-	console.log('Se ejecuto')
-  const url = new URL("https://api.themoviedb.org/3/genre/tv/list");
-  url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
-  url.searchParams.append("language", "es-ES");
+	console.log("Se ejecuto");
+	const url = new URL("https://api.themoviedb.org/3/genre/tv/list");
+	url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
+	url.searchParams.append("language", "es-ES");
 
-  try {
-    
-    const response = await fetch(url.toString(), {
-      next: { revalidate: 86400 }, // Revalida cada 24 horas
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+	try {
+		const response = await fetch(url.toString(), {
+			next: { revalidate: 86400 }, // Revalida cada 24 horas
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 
-    const data = await response.json();
+		const data = await response.json();
 
-    if (!response.ok) {
-      return {
-        error: "Error al obtener los géneros de la API.",
-        details: data.status_message || "Error desconocido",
-        data: [],
-      };
-    }
+		if (!response.ok) {
+			return {
+				error: "Error al obtener los géneros de la API.",
+				details: data.status_message || "Error desconocido",
+				data: [],
+			};
+		}
 
-    return {
-      error: null,
-      details: null,
-      data: data.genres || [],
-    };
-  } catch (error) {
-    return {
-      error: "Error al realizar la solicitud a la API.",
-      details: error instanceof Error ? error.message : "Error desconocido",
-      data: [],
-    };
-  }
+		return {
+			error: null,
+			details: null,
+			data: data.genres || [],
+		};
+	} catch (error) {
+		return {
+			error: "Error al realizar la solicitud a la API.",
+			details: error instanceof Error ? error.message : "Error desconocido",
+			data: [],
+		};
+	}
+}
+
+export async function fetchSerieDetail(id: number | string): Promise<{
+	error?: string;
+	details?: unknown;
+	data: SerieDetail | null;
+}> {
+	const url = new URL(`https://api.themoviedb.org/3/tv/${id}`);
+	url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
+	url.searchParams.append("language", "es-ES");
+	url.searchParams.append("append_to_response", "aggregate_credits");
+	try {
+		const response = await fetch(url.toString(), {
+			next: { revalidate: 86400 }, // Revalida cada 24 horas
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+			return {
+				error: "Error al obtener los datos de la API.",
+				details: data.status_message || "Error desconocido",
+				data: null,
+			};
+		}
+
+		return {
+			data: data,
+		};
+	} catch (error) {
+		return {
+			error: "Error al realizar la solicitud a la API.",
+			details: error instanceof Error ? error.message : "Error desconocido",
+			data: null,
+		};
+	}
 }
