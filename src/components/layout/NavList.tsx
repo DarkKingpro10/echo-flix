@@ -64,7 +64,7 @@ export default function NavList() {
 						</button>
 					</div>
 					{routes.map(({ icon, label, path }, index) => (
-            <NavLinkItem key={index} path={path} label={label} icon={icon} />
+            <NavLinkItem onClick={toggleMenu} key={index} path={path} label={label} icon={icon} />
 						// <Link
 						// 	key={index}
 						// 	href={path}

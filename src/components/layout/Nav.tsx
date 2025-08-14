@@ -25,7 +25,7 @@ export default function Nav() {
 			</div>
 			{/** Titulo */}
 			{/** Botón de cambio de tema y menu*/}
-			<div className="flex gap-4 items-center">
+			<div className="flex gap-4 items-center flex-row-reverse md:flex-row">
 				<NavList />
 				<ThemeToggleButton />
 			</div>
