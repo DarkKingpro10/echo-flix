@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import SeriesList from "./components/SeriesList";
-import { fetchSeries } from "./seriesActions";
+import { fetchSeries, fetchSeriesGenre } from "./seriesActions";
 import CardSkeleton from "@/components/layout/CardSkeleton";
+import SearchBar from "../movies/components/SearchBar";
+import CategoryFilter from "../movies/components/CategoryFilter";
 
 export const dynamic = "force-dynamic"; // Para que siempre se muestre la información mas actual y permitir a tanstack manejarlo
 
@@ -29,7 +31,6 @@ export default async function SeriesPage(props: {
 		query,
 	});
 
-	console.log(response)
 	return (
 		<main className=" min-h-[calc(100dvh_-_80px)] flex flex-col items-center dark:bg-background p-5 bg-zinc-100  text-zinc-900 dark:text-white">
 			<h1 className="text-3xl font-bold mb-5 underline decoration-secondary underline-offset-4">
@@ -49,6 +50,8 @@ export default async function SeriesPage(props: {
 					<h2 className="text-2xl font-bold">Lista de Series</h2>
 					<div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
 						{/* Aquí van a ir los search y categorias*/}
+						<SearchBar query={query} />
+						<CategoryFilter fetchCallback={fetchSeriesGenre} />
 					</div>
 				</div>
 

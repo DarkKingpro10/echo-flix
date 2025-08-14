@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import MoviesList from "./components/MoviesList";
 import CardSkeleton from "@/components/layout/CardSkeleton";
+import { fetchMovieGenres } from "./moviesActions";
 
 // Marcar la ruta como dinámica
 // export const dynamic = "force-dynamic"; // Mejor no para que la primera carga sea más rápida
@@ -50,7 +51,7 @@ export default async function Page(props: {
 					<h2 className="text-2xl font-bold">Lista de Películas</h2>
 					<div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
 						<SearchBar query={query} />
-						<CategoryFilter />
+						<CategoryFilter fetchCallback={fetchMovieGenres} />
 					</div>
 				</div>
 			</div>

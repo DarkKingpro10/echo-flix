@@ -97,7 +97,8 @@ export async function fetchSeriesGenre(): Promise<{
   details: unknown | null;
   data: Genre[];
 }> {
-  const url = new URL("https://api.themoviedb.org/3/genre/movie/list");
+	console.log('Se ejecuto')
+  const url = new URL("https://api.themoviedb.org/3/genre/tv/list");
   url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
   url.searchParams.append("language", "es-ES");
 

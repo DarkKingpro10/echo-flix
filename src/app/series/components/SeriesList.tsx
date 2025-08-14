@@ -29,7 +29,7 @@ export default function SeriesList({
 		status,
 		error,
 	} = useInfiniteQuery({
-		queryKey: ["series"],
+		queryKey: ["series", query, genres],
 		queryFn: ({ pageParam = 1 }) =>
 			fetchSeries({ page: pageParam, genres, query }),
 		initialPageParam: page,

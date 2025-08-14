@@ -4,13 +4,22 @@ import { Filter } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { fetchMovieGenres } from "../moviesActions";
+import { Genre } from "@/types/genresTypes";
 
 interface Category {
 	id: number;
 	name: string;
 }
 
-export default function CategoryFilter() {
+interface CategoryFilterProps {
+	fetchCallback: () => Promise<{
+		error: string | null;
+		details: unknown | null;
+		data: Genre[];
+	}>;
+}
+
+export default function CategoryFilter({fetchCallback}: CategoryFilterProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -27,7 +36,7 @@ export default function CategoryFilter() {
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
-        const response = await fetchMovieGenres();
+				const response = await fetchCallback();
 				if (response.error) {
 					console.error("Error al cargar las categorias:", response.details);
 				}
