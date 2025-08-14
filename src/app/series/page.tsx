@@ -29,6 +29,7 @@ export default async function SeriesPage(props: {
 		query,
 	});
 
+	console.log(response)
 	return (
 		<main className=" min-h-[calc(100dvh_-_80px)] flex flex-col items-center dark:bg-background p-5 bg-zinc-100  text-zinc-900 dark:text-white">
 			<h1 className="text-3xl font-bold mb-5 underline decoration-secondary underline-offset-4">

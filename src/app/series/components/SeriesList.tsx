@@ -3,6 +3,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { SeriesFetchResponseType, fetchSeries } from "../seriesActions";
 import SerieCard from "./SerieCard";
+import { useEffect, useRef } from "react";
+import CardSkeleton from "@/components/layout/CardSkeleton";
 
 type SeriesListProps = {
 	initialData: SeriesFetchResponseType;
@@ -17,6 +19,8 @@ export default function SeriesList({
 	genres,
 	query,
 }: SeriesListProps) {
+	const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
 	const {
 		data,
 		fetchNextPage,
@@ -45,6 +49,31 @@ export default function SeriesList({
 		},
 	});
 
+	useEffect(() => {
+		if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
+
+		const observer = new IntersectionObserver((entries) => {
+			if (entries[0].isIntersecting) {
+				fetchNextPage();
+			}
+		});
+
+		observer.observe(loadMoreRef.current);
+
+		return () => {
+			if (loadMoreRef.current) observer.unobserve(loadMoreRef.current);
+		};
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+	if (status === "error") {
+		return (
+			<section className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+				<h1 className="text-2xl font-bold mb-4">Error al cargar las series</h1>
+				<p className="text-lg text-red-600 dark:text-red-400">{status}</p>
+			</section>
+		);
+	}
+
 	if (initialData.data.length < 1) {
 		return (
 			<section className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
@@ -63,6 +92,11 @@ export default function SeriesList({
 					page.data.map((serie) => <SerieCard key={serie.id} serie={serie} />)
 				)}
 			</section>
+			{isFetchingNextPage && <CardSkeleton cantidad={10} />}
+			{/* Elemento sentinel para el observer */}
+			<div ref={loadMoreRef} />
+			{/* Fin del scroll */}
+			{!hasNextPage && <p>No hay más series.</p>}
 		</section>
 	);
 }

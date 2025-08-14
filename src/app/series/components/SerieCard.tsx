@@ -1,9 +1,9 @@
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { TMDB_IMAGE_BASE_URL } from "@/config/globalVariables";
 import clsx from "clsx";
 import { Serie } from "../seriesType";
+import './scroll-animations.css'
 
 /**
  * Componente SerieCard que muestra la información de una serie.
@@ -14,7 +14,7 @@ export default function SerieCard({ serie }: { serie: Serie }) {
 	return (
 		<article
 			key={serie.id}
-			className="relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+			className="relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg serie-card-animate "
 		>
 			{/* Overlay al hacer hover */}
 			<Link
