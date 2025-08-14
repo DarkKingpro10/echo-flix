@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
 import { Serie } from "../seriesType";
-import './scroll-animations.css'
+import styles from "@/styles/scroll-animations.module.css";
 
 /**
  * Componente SerieCard que muestra la información de una serie.
@@ -14,7 +14,7 @@ export default function SerieCard({ serie }: { serie: Serie }) {
 	return (
 		<article
 			key={serie.id}
-			className="relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg serie-card-animate "
+			className={`relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg ${styles["serie-card-animate"]}`}
 		>
 			{/* Overlay al hacer hover */}
 			<Link
@@ -26,7 +26,7 @@ export default function SerieCard({ serie }: { serie: Serie }) {
 			<Image
 				width={500}
 				height={300}
-				src={'https://image.tmdb.org/t/p/w500' + serie.poster_path}
+				src={"https://image.tmdb.org/t/p/w500" + serie.poster_path}
 				key={serie.id}
 				className="w-full h-[400px] object-cover rounded-t-lg shadow-md"
 				alt={serie.name}

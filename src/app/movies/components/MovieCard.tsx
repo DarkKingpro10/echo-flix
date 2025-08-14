@@ -4,6 +4,8 @@ import Image from "next/image";
 import { TMDB_IMAGE_BASE_URL } from "@/config/globalVariables";
 import clsx from "clsx";
 import { Movie } from "../moviesTypes";
+import styles from "@/styles/scroll-animations.module.css";
+
 /**
  * Componente MovieCard que muestra la información de una película.
  * @param {Movie} movie - Objeto de tipo Movie que contiene los detalles de la película.
@@ -13,7 +15,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 	return (
 		<article
 			key={movie.id}
-			className="relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+			className={`relative group bg-white dark:bg-zinc-800 rounded-md shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg ${styles["serie-card-animate"]}`}
 		>
 			{/* Overlay al hacer hover */}
 			<Link
