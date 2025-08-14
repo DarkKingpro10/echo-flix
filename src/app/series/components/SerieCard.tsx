@@ -18,7 +18,7 @@ export default function SerieCard({ serie }: { serie: Serie }) {
 		>
 			{/* Overlay al hacer hover */}
 			<Link
-				href={`${TMDB_IMAGE_BASE_URL}/${serie.id}`}
+				href={`/series/${serie.id}`}
 				className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
 			>
 				<Eye className="w-10 h-10 text-white hover:text-gray-500 transition-colors" />
@@ -26,7 +26,7 @@ export default function SerieCard({ serie }: { serie: Serie }) {
 			<Image
 				width={500}
 				height={300}
-				src={TMDB_IMAGE_BASE_URL + serie.poster_path}
+				src={'https://image.tmdb.org/t/p/w500' + serie.poster_path}
 				key={serie.id}
 				className="w-full h-[400px] object-cover rounded-t-lg shadow-md"
 				alt={serie.name}

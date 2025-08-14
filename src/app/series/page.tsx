@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import SeriesList from "./components/SeriesList";
 import { fetchSeries } from "./seriesActions";
+import CardSkeleton from "@/components/layout/CardSkeleton";
 
 export const dynamic = "force-dynamic"; // Para que siempre se muestre la información mas actual y permitir a tanstack manejarlo
 
@@ -13,7 +15,7 @@ export default async function SeriesPage(props: {
 	// Obtenemos los parametros de la URL
 	const searchParams = await props.searchParams;
 	const query = searchParams?.query ?? "";
-	const currentPage =  Number(searchParams?.page ?? 1);
+	const currentPage = Number(searchParams?.page ?? 1);
 	const genresRaw = searchParams?.genres;
 	const genres = Array.isArray(genresRaw)
 		? genresRaw
@@ -26,8 +28,6 @@ export default async function SeriesPage(props: {
 		genres,
 		query,
 	});
-
-	console.log(response)
 
 	return (
 		<main className=" min-h-[calc(100dvh_-_80px)] flex flex-col items-center dark:bg-background p-5 bg-zinc-100  text-zinc-900 dark:text-white">
@@ -63,12 +63,14 @@ export default async function SeriesPage(props: {
 				)}
 
 				{!response.error && (
-					<SeriesList
-						initialData={response}
-						page={currentPage}
-						genres={genres}
-						query={query}
-					/>
+					<Suspense fallback={<CardSkeleton cantidad={10} />}>
+						<SeriesList
+							initialData={response}
+							page={currentPage}
+							genres={genres}
+							query={query}
+						/>
+					</Suspense>
 				)}
 			</div>
 		</main>
