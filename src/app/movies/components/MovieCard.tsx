@@ -31,7 +31,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 				alt={movie.title}
 				loading="lazy"
 			/>
-			<div className="p-4 flex ">
+			<footer className="p-4 flex ">
 				{/** Titulo de la pelicula*/}
 				<h3 className="text-lg flex-1 font-semibold mb-2 line-clamp-2">
 					{movie.title}
@@ -52,7 +52,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
 						{movie.vote_average.toFixed(1)}
 					</span>
 				</div>
-			</div>
+			</footer>
 		</article>
 	);
 }

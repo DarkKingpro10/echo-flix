@@ -8,6 +8,35 @@ import { fetchMovieDetails } from "../moviesActions";
 import BackButton from "@/components/BackButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import { FavoriteObject } from "@/app/store/favoriteStore";
+import { Metadata } from "next/types";
+
+// Generar metadatos dinámicos para SEO
+export async function generateMetadata({
+	params,
+}: {
+	params: { id: string };
+}): Promise<Metadata> {
+	const { data: movie, error } = await fetchMovieDetails(params.id);
+
+	if (error || !movie) {
+		return {
+			title: "Película no encontrada",
+			description: "No se encontró información sobre esta película.",
+		};
+	}
+
+	return {
+		title: `${movie.title} | Detalles de la película`,
+		description: movie.overview || "Detalles y reparto de la película.",
+		openGraph: {
+			title: `${movie.title} | Detalles de la película`,
+			description: movie.overview || "Detalles y reparto de la película.",
+			images: movie.backdrop_path
+				? [`https://image.tmdb.org/t/p/original${movie.backdrop_path}`]
+				: [],
+		},
+	};
+}
 
 export default async function MovieDetailsPage({
 	params,
@@ -123,14 +152,14 @@ export default async function MovieDetailsPage({
 							</div>
 
 							{/* Sinopsis */}
-							<div>
-								<h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+							<section aria-labelledby="sinopsis-heading">
+								<h2 id="sinopsis-heading" className="text-xl font-semibold text-zinc-900 dark:text-white">
 									Sinopsis
 								</h2>
 								<p className="mt-2 text-zinc-700 dark:text-zinc-300">
 									{movie.overview || "No hay sinopsis disponible."}
 								</p>
-							</div>
+							</section>
 
 							{/* Equipo */}
 							<div className="space-y-4">
@@ -162,7 +191,7 @@ export default async function MovieDetailsPage({
 										<div className="mt-2">
 											{writers.map((writer, index) => (
 												<span
-													key={writer.id}
+													key={index}
 													className="text-zinc-700 dark:text-zinc-300"
 												>
 													{writer.name}
@@ -179,9 +208,9 @@ export default async function MovieDetailsPage({
 										<h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
 											Reparto principal
 										</h2>
-										<div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+										<section className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 											{movie.credits.cast.slice(0, 8).map((actor) => (
-												<div key={actor.id} className="flex items-center gap-3">
+												<article key={actor.id} className="flex items-center gap-3">
 													<div className="relative h-12 w-12 flex-shrink-0">
 														{actor.profile_path ? (
 															<Image
@@ -202,9 +231,9 @@ export default async function MovieDetailsPage({
 															{actor.character}
 														</p>
 													</div>
-												</div>
+												</article>
 											))}
-										</div>
+										</section>
 									</div>
 								)}
 							</div>

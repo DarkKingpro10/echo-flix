@@ -27,7 +27,6 @@ export default function SeriesList({
 		isFetchingNextPage,
 		hasNextPage,
 		status,
-		error,
 	} = useInfiniteQuery({
 		queryKey: ["series", query, genres],
 		queryFn: ({ pageParam = 1 }) =>

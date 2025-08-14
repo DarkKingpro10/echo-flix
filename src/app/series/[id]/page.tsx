@@ -8,7 +8,35 @@ import BackButton from "@/components/BackButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import { FavoriteObject } from "@/app/store/favoriteStore";
 import { fetchSerieDetail } from "../seriesActions";
+import { Metadata } from "next/types";
 
+// Generar metadatos dinámicos para SEO
+export async function generateMetadata({
+	params,
+}: {
+	params: { id: string };
+}): Promise<Metadata> {
+	const { data: serie, error } = await fetchSerieDetail(params.id);
+
+	if (error || !serie) {
+		return {
+			title: "Serie no encontrada",
+			description: "No se encontró información sobre esta serie.",
+		};
+	}
+
+	return {
+		title: `${serie.name} | Detalles de la serie`,
+		description: serie.overview || "Detalles y reparto de la serie.",
+		openGraph: {
+			title: `${serie.name} | Detalles de la serie`,
+			description: serie.overview || "Detalles y reparto de la serie.",
+			images: serie.backdrop_path
+				? [`https://image.tmdb.org/t/p/original${serie.backdrop_path}`]
+				: [],
+		},
+	};
+}
 
 export default async function SeriesDetail({
 	params,
@@ -86,7 +114,9 @@ export default async function SeriesDetail({
 								<span className="font-bold flex justify-center gap-1.5 text-center text-red-500 animate-pulse">
 									En Emision <Radio />
 								</span>
-							): <span className="text-center w-full block">Finalizada</span>}
+							) : (
+								<span className="text-center w-full block">Finalizada</span>
+							)}
 						</section>
 
 						{/* Información */}
@@ -132,24 +162,27 @@ export default async function SeriesDetail({
 							</div>
 
 							{/* Sinopsis */}
-							<div>
-								<h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+							<section aria-labelledby="sinopsis-heading">
+								<h2
+									id="sinopsis-heading"
+									className="text-xl font-semibold text-zinc-900 dark:text-white"
+								>
 									Sinopsis
 								</h2>
 								<p className="mt-2 text-zinc-700 dark:text-zinc-300">
 									{serie.overview || "No hay sinopsis disponible."}
 								</p>
-							</div>
+							</section>
 
 							{/* Equipo */}
-							<div className="space-y-4">
+							<section className="space-y-4">
 								{/* Creator */}
 								{creators.length > 0 && (
 									<div>
 										<h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
 											Creadores
 										</h2>
-										<div className="mt-2">
+										<article className="mt-2">
 											{creators.map((director) => (
 												<span
 													key={director.id}
@@ -158,20 +191,20 @@ export default async function SeriesDetail({
 													{director.name}
 												</span>
 											))}
-										</div>
+										</article>
 									</div>
 								)}
 
 								{/* Reparto */}
 								{serie.aggregate_credits.cast.length > 0 && (
-									<div>
+									<section>
 										<h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
 											Reparto principal
 										</h2>
 										<div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 											{serie.aggregate_credits.cast.slice(0, 8).map((actor) => (
 												<div key={actor.id} className="flex items-center gap-3">
-													<div className="relative h-12 w-12 flex-shrink-0">
+													<article className="relative h-12 w-12 flex-shrink-0">
 														{actor.profile_path ? (
 															<Image
 																src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
@@ -182,7 +215,7 @@ export default async function SeriesDetail({
 														) : (
 															<div className="h-full w-full rounded-full bg-zinc-200 dark:bg-zinc-800" />
 														)}
-													</div>
+													</article>
 													<div>
 														<p className="font-medium text-zinc-900 dark:text-white">
 															{actor.name}
@@ -196,9 +229,9 @@ export default async function SeriesDetail({
 												</div>
 											))}
 										</div>
-									</div>
+									</section>
 								)}
-							</div>
+							</section>
 						</section>
 					</div>
 				</div>

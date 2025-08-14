@@ -47,14 +47,14 @@ export default async function SeriesPage(props: {
 			</p>
 
 			<div className="w-full max-w-7xl mx-auto mb-8 space-y-6">
-				<div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+				<section className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
 					<h2 className="text-2xl font-bold">Lista de Series</h2>
 					<div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
 						{/* Aquí van a ir los search y categorias*/}
 						<SearchBar query={query} />
 						<CategoryFilter fetchCallback={fetchSeriesGenre} />
 					</div>
-				</div>
+				</section>
 
 				{response.error && (
 					<section className="flex flex-col items-center justify-center p-5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white">
