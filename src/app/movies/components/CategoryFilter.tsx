@@ -3,7 +3,6 @@
 import { Filter } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { fetchMovieGenres } from "../moviesActions";
 import { Genre } from "@/types/genresTypes";
 
 interface Category {

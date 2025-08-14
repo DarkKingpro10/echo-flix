@@ -14,9 +14,10 @@ import { Metadata } from "next/types";
 export async function generateMetadata({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-	const { data: movie, error } = await fetchMovieDetails(params.id);
+	const { id } = await params;
+	const { data: movie, error } = await fetchMovieDetails(id);
 
 	if (error || !movie) {
 		return {
@@ -41,9 +42,10 @@ export async function generateMetadata({
 export default async function MovieDetailsPage({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
-	const { data: movie, error } = await fetchMovieDetails(params.id);
+	const { id } = await params;
+	const { data: movie, error } = await fetchMovieDetails(id);
 	// const router = useRouter();
 
 	if (error || !movie) {

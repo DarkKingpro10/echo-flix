@@ -14,9 +14,10 @@ import { Metadata } from "next/types";
 export async function generateMetadata({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-	const { data: serie, error } = await fetchSerieDetail(params.id);
+	const { id } = await params;
+	const { data: serie, error } = await fetchSerieDetail(id);
 
 	if (error || !serie) {
 		return {
@@ -41,9 +42,10 @@ export async function generateMetadata({
 export default async function SeriesDetail({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
-	const { data: serie, error } = await fetchSerieDetail(params.id);
+	const { id } = await params;
+	const { data: serie, error } = await fetchSerieDetail(id);
 	// const router = useRouter();
 
 	if (error || !serie) {
@@ -128,7 +130,7 @@ export default async function SeriesDetail({
 									</h1>
 									<FavoriteButton object={favoriteObject} />
 								</div>
-								<div className="mt-2 flex items-center gap-4 flex-wrap mt-1.5 md:mt-0">
+								<div className="mt-2 flex items-center gap-4 flex-wrap md:mt-0">
 									<div className="flex items-center gap-1">
 										<Star className="h-5 w-5 text-yellow-400" />
 										<span className="text-sm  dark:text-zinc-300">
