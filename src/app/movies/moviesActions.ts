@@ -57,7 +57,7 @@ export async function fetchMovies(searchParams: MovieFetchParamsType): Promise<{
 
 	// Realizamos la solicitud a la API
 	try {
-    console.log("Fetching movies with URL:", url.toString());
+    // console.log("Fetching movies with URL:", url.toString());
 		const response = await fetch(url.toString(), {
 			next: { revalidate: 1800 }, // Revalida cada 30 minutos 
 			headers: {
@@ -164,7 +164,6 @@ export async function fetchMovieGenres(): Promise<{
 	details: unknown | null;
 	data: Genre[];
 }> {
-  console.log("Fetching movie genres...");
 	const url = new URL("https://api.themoviedb.org/3/genre/movie/list");
 	url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
 	url.searchParams.append("language", "es-ES");

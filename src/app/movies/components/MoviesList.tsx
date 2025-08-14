@@ -1,10 +1,5 @@
 import { use } from "react";
 import { fetchMovies, MovieFetchParamsType } from "../moviesActions";
-import Image from "next/image";
-import { TMDB_IMAGE_BASE_URL } from "../../../config/globalVariables";
-import clsx from "clsx";
-import Link from "next/link";
-import { Eye } from "lucide-react";
 import Pagination from "@/components/Pagination";
 import MovieCard from "./MovieCard";
 export default function MoviesList({

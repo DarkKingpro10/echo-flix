@@ -1,3 +1,4 @@
+import SeriesList from "./components/SeriesList";
 import { fetchSeries } from "./seriesActions";
 
 export const dynamic = "force-dynamic"; // Para que siempre se muestre la información mas actual y permitir a tanstack manejarlo
@@ -12,7 +13,7 @@ export default async function SeriesPage(props: {
 	// Obtenemos los parametros de la URL
 	const searchParams = await props.searchParams;
 	const query = searchParams?.query ?? "";
-	const currentPage = searchParams?.page ?? "1";
+	const currentPage =  Number(searchParams?.page ?? 1);
 	const genresRaw = searchParams?.genres;
 	const genres = Array.isArray(genresRaw)
 		? genresRaw
@@ -20,7 +21,13 @@ export default async function SeriesPage(props: {
 		? [genresRaw]
 		: [];
 
-	const response = await fetchSeries({ page: Number(currentPage), genres, query });
+	const response = await fetchSeries({
+		page: currentPage,
+		genres,
+		query,
+	});
+
+	console.log(response)
 
 	return (
 		<main className=" min-h-[calc(100dvh_-_80px)] flex flex-col items-center dark:bg-background p-5 bg-zinc-100  text-zinc-900 dark:text-white">
@@ -53,6 +60,15 @@ export default async function SeriesPage(props: {
 							{response.error}
 						</p>
 					</section>
+				)}
+
+				{!response.error && (
+					<SeriesList
+						initialData={response}
+						page={currentPage}
+						genres={genres}
+						query={query}
+					/>
 				)}
 			</div>
 		</main>

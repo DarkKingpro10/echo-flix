@@ -48,8 +48,6 @@ export async function fetchSeries(searchParams: SerieFetchParamsType): Promise<S
 	url.searchParams.append("page", page.toString());
 	url.searchParams.append("language", "es-ES");
 
-	console.log(query)
-
 	// Si hay una consulta de búsqueda, la añadimos a los parámetros
 	if (query) {
 		url.searchParams.append("query", query);
@@ -99,7 +97,6 @@ export async function fetchSeriesGenre(): Promise<{
   details: unknown | null;
   data: Genre[];
 }> {
-  console.log("Fetching movie genres...");
   const url = new URL("https://api.themoviedb.org/3/genre/movie/list");
   url.searchParams.append("api_key", process.env.TMDB_API_KEY || "");
   url.searchParams.append("language", "es-ES");
