@@ -1,3 +1,5 @@
+export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Star } from "lucide-react";
@@ -6,8 +8,6 @@ import { fetchMovieDetails } from "../moviesActions";
 import BackButton from "@/components/BackButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import { FavoriteObject } from "@/app/store/favoriteStore";
-
-export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
 
 export default async function MovieDetailsPage({
 	params,

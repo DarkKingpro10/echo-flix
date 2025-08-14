@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // Para que siempre se muestre la información mas actual y permitir a tanstack manejarlo
+
 import { Suspense } from "react";
 import SeriesList from "./components/SeriesList";
 import { fetchSeries, fetchSeriesGenre } from "./seriesActions";
@@ -5,7 +7,6 @@ import CardSkeleton from "@/components/layout/CardSkeleton";
 import SearchBar from "../movies/components/SearchBar";
 import CategoryFilter from "../movies/components/CategoryFilter";
 
-export const dynamic = "force-dynamic"; // Para que siempre se muestre la información mas actual y permitir a tanstack manejarlo
 
 export default async function SeriesPage(props: {
 	searchParams?: Promise<{

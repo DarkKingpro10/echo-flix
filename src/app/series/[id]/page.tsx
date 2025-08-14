@@ -1,3 +1,5 @@
+export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Radio, Star } from "lucide-react";
@@ -7,7 +9,6 @@ import FavoriteButton from "@/components/FavoriteButton";
 import { FavoriteObject } from "@/app/store/favoriteStore";
 import { fetchSerieDetail } from "../seriesActions";
 
-export const revalidate = 86400; // revalidar 24 horas para que sea fresca la información
 
 export default async function SeriesDetail({
 	params,
