@@ -66,7 +66,7 @@ export default async function SeriesDetail({
 	};
 
 	const favoriteObject: FavoriteObject = {
-		type: "movie" as const,
+		type: "serie" as const,
 		id: serie.id,
 		title: serie.name,
 		name: serie.name,
